@@ -26,6 +26,7 @@
 #include "Defaults.hpp"
 #include <cerrno>
 #include <fstream>
+#include <regex>
 #include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
@@ -51,6 +52,7 @@ Term::Term( Messenger & mess,
     , m_logger( config.logger( ) )
     , m_max_history( config.max_history( ) )
     , m_cmd_file( config.cmd_file( ) )
+    , m_ansi_seq_flt( config.filter_ansi_seq( ) )
 {
     s_handling_term = this;
 
@@ -639,6 +641,12 @@ Term::get_shell_output( std::string & reply )
         reply += tmp_buffer;
         cnt   += retval;
     } while ( retval == buffer_len );
+
+    if ( m_ansi_seq_flt )
+    {
+        std::regex exp( "\\x1B\\[[^@-~]*[@-~]" );
+        reply = std::regex_replace( reply, exp, "" );
+    }
 
     return cnt;
 }

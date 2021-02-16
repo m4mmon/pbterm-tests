@@ -47,6 +47,7 @@ Config::Config( Logger & logger )
     , m_log_file(            DEFAULT_LOG_FILE          )
     , m_keyboard_file(       KEYBOARD_FILE             ) 
     , m_user_cmd_file(       USER_CMD_FILE             )
+    , m_ansi_seq_flt(        FILTER_ANSI_SEQ           )
 {
     // Try to read in the configuration file
 
@@ -72,6 +73,10 @@ Config::Config( Logger & logger )
                  m_max_history );
     checked_int( "max_lines", 20, std::numeric_limits< int >::max( ),
                  m_max_lines );
+
+     // Check for boolean settings from the configuration file
+
+    checked_bool( "ansi_seq_filter", m_ansi_seq_flt );
 
     for ( std::map< std::string, std::string >::iterator it = m_cfg.begin( );
           it != m_cfg.end( ); ++it )
@@ -349,6 +354,47 @@ Config::checked_int( std::string const & name,
     what = tmp;
 }
 
+
+/******************************************
+ ******************************************/
+
+void
+Config::checked_bool( std::string const & name,
+                      bool              & what )
+{
+    std::map< std::string, std::string >::iterator it = m_cfg.find( name );
+
+    if ( it == m_cfg.end( ) )
+        return;
+
+    std::string str_flag = it->second;
+    m_cfg.erase( name );
+
+    if ( str_flag.empty( ) )
+    {
+        m_logger.warn( ) << "Missing value for keyword '" << name
+                         << "' in configuration file" << std::endl;
+        return;
+    }
+
+    // be tolerant on value comparison by putting to lowercase
+
+    std::transform( str_flag.begin(), str_flag.end(),
+                    str_flag.begin(), ::tolower );
+
+    if ( str_flag != "true" && str_flag != "false" )
+    {
+        m_logger.warn( ) << "Value for keyword '" << name
+                         << "' in configuration file isn't 'true' or 'false'"
+                         << std::endl;
+        return;
+    }
+
+    // actually, we only check for true, anything else would be false,
+    // but previous check forces config to contain only true or false
+
+    what = str_flag == "true";
+}
 
 /*
  * Local variables:

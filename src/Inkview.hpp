@@ -34,7 +34,9 @@
 
 // Event to be evaluated during multi-touch guestures
 
+#ifndef EVT_MTSYNC
 #define EVT_MTSYNC  39
+#endif
 
 
 // Typedef for the signature of the GetMenuRect() function
@@ -43,15 +45,18 @@ typedef irect ( * GetMenuRect_t )( imenu const * );
 
 
 // Structure returned by the GetTouchInfo() function
-
+#if 0
 typedef struct iv_mtinfo_s {
+
     int active;
     int x;
     int y;
     int pressure;
-    int rsv_1;
+    enum input_dev_e devtype;
     int rsv_2;
+    long long timems;
 } iv_mtinfo;
+#endif
 
 
 // Typedef for the signature of the GetTouchInfo() function
@@ -68,8 +73,9 @@ typedef iv_mtinfo * ( * GetTouchInfo_t )( void );
 #define ISPOINTEREVENT( x )             \
    (    ( ( x ) >= 29 && ( x ) <= 31 )  \
      || ( ( x ) >= 34 && ( x ) <= 35 )  \
+     || ( x ) == 44                     \
      || ( x ) == 39                     \
-     || ( x ) == 44 )
+     || ( x ) == 45 )
 
 
 // The T and TF macros in inkview.h are an abomination since their names are

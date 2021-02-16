@@ -146,6 +146,11 @@
 #define USER_CMD_FILE "/mnt/ext1/system/share/pbterm/user.cmd"
 
 
+// flag for filtering ANSI escape sequences
+
+#define FILTER_ANSI_SEQ false
+
+
 #endif
 
 

@@ -152,6 +152,11 @@ class Term
     std::string m_cmd_file;
 
 
+    // flag for ANSI escape sequences filtering
+
+    bool m_ansi_seq_flt;
+
+
     // Callback handling terminal
 
     static Term * s_handling_term;

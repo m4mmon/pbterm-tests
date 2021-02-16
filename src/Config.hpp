@@ -107,6 +107,12 @@ class Config
     keyboard_file( ) const  { return m_keyboard_file; }
 
 
+    // Returns the flag for ANSI escape sequences filtering
+
+    bool
+    filter_ansi_seq( ) const  { return m_ansi_seq_flt; }
+
+
     Logger &
     logger( )  { return m_logger; }
 
@@ -168,6 +174,13 @@ class Config
                  int                 min,
                  int                 max,
                  int               & what );
+
+
+     // Checks and sets a boolean property named 'name'
+
+     void
+     checked_bool( std::string const & name,
+                   bool              & what );
 
 
     // Logger object
@@ -248,6 +261,11 @@ class Config
     // File for commonly used commands
 
     std::string m_user_cmd_file;
+
+
+    // flag for ANSI escape sequences filtering
+
+    bool m_ansi_seq_flt;
 };
 
 

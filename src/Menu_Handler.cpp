@@ -46,12 +46,12 @@ Menu_Handler::Menu_Handler( Messenger & mess,
 
     // Create the main menu
 
-    imenu tmp[ ] = { { ITEM_SUBMENU, 0,           "Prev. commands", 0 },
-                     { ITEM_SUBMENU, 0,           "User commands",  0 },
-                     { ITEM_SUBMENU, 0,           "Send CTRL",      0 },
-                     { ITEM_SUBMENU, 0,           "Keyboard",       0 },
-                     { ITEM_ACTIVE,  Menu_Rotate, "Rotate",         0 },
-                     { ITEM_ACTIVE,  Menu_Exit,   "Exit",           0 },
+    imenu tmp[ ] = { { ITEM_SUBMENU, 0,           (char*)"Prev. commands", 0 },
+                     { ITEM_SUBMENU, 0,           (char*)"User commands",  0 },
+                     { ITEM_SUBMENU, 0,           (char*)"Send CTRL",      0 },
+                     { ITEM_SUBMENU, 0,           (char*)"Keyboard",       0 },
+                     { ITEM_ACTIVE,  Menu_Rotate, (char*)"Rotate",         0 },
+                     { ITEM_ACTIVE,  Menu_Exit,   (char*)"Exit",           0 },
                      { 0,            0,           0,                0 } };
 
     for ( std::size_t i = 0; i < sizeof tmp / sizeof *tmp; ++i )
@@ -163,7 +163,7 @@ Menu_Handler::submenu_command( int index )
                               m_submenus[ Menu_Send_Ctrl ][ index ].text ) );
     else if ( m_submenus[ Menu_Keyboard ].has( index ) )
         m_mess.send( message::Use_Custom_Keyboard(
-                     m_submenus[ Menu_Keyboard ][ index ].text == "Pbterm" ) );
+                     strcmp( m_submenus[ Menu_Keyboard ][ index ].text, "Pbterm" ) == 0 ) );
 }
 
 

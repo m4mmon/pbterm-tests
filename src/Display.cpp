@@ -45,6 +45,7 @@ Display::Display( Messenger & mess,
     , m_is_recording( false )
 {
     OpenScreen( );
+    SetPanelType( 0 );
 
     if ( ! ( m_font = OpenFont( m_font_name.c_str( ), m_font_size, 1 ) ) )
     {
