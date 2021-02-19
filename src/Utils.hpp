@@ -86,6 +86,13 @@ split_string( std::string const & str,
 std::string
 prepare_file_creation( std::string const & name );
 
+
+// Remove ANSI escape sequences from a string, modifying the string
+
+std::string &
+remove_ansi_seq( std::string & str );
+
+
 }
 
 

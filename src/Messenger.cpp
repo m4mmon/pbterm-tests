@@ -47,7 +47,7 @@ Messenger::Messenger( )
     , m_is_recording( false )
     , m_inkview_handle( 0 )
     , m_GetMenuRect( 0 )
-    , m_GetTouchInfo( 0 )
+    , m_GetTouchInfoI( 0 )
 {
     // Newer versions of the libinkview library have several functions not
     // supported by the current SDK. Try to load them anyway.
@@ -403,16 +403,16 @@ Messenger::GetMenuRect( imenu * menu,
 
 
 /******************************************
- * If available in libinkview call GetTouchInfo() to find out were the two
- * fingers are at the moment. Return if calling GetTouchInfo() was possible.
+ * If available in libinkview call GetTouchInfoI() to find out were the two
+ * fingers are at the moment. Return if calling GetTouchInfoI() was possible.
  ******************************************/
 
 bool
-Messenger::GetTouchInfo( iv_mtinfo mtinfo[ 2 ] )
+Messenger::GetTouchInfoI(unsigned int index, iv_mtinfo mtinfo[ 2 ] )
 {
     iv_mtinfo * mti;
 
-    if ( ! m_GetTouchInfo || ! ( mti = m_GetTouchInfo( ) ) )
+    if ( ! m_GetTouchInfoI || ! ( mti = m_GetTouchInfoI( index ) ) )
         return false;
 
     memcpy( mtinfo, mti, 2 * sizeof *mti );
@@ -434,8 +434,8 @@ Messenger::load_unsupported_functions( )
 
     m_GetMenuRect = reinterpret_cast< GetMenuRect_t >(
                                    dlsym( m_inkview_handle, "GetMenuRect" ) );
-    m_GetTouchInfo = reinterpret_cast< GetTouchInfo_t >(
-                                   dlsym( m_inkview_handle, "GetTouchInfo" ) );
+    m_GetTouchInfoI = reinterpret_cast< GetTouchInfoI_t >(
+                                   dlsym( m_inkview_handle, "GetTouchInfoI" ) );
 }
 
 

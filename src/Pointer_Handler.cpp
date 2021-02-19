@@ -121,7 +121,7 @@ Pointer_Handler::handle_pointer_move( int x,
 /******************************************
  * Called on EVT_MTSYNC events to check if a two-fungure guesture is
  * starting, going on or ends. Depends on the availability of the
- * GetTouchInfo() function in the libinkview used (otherwise nothing
+ * GetTouchInfoI() function in the libinkview used (otherwise nothing
  * happens). On start of a two-finger guesture the start distance
  * between the fingers is recorded, during such a guesture the new
  * distanc is stored, and at the end the font size is increased or
@@ -130,7 +130,7 @@ Pointer_Handler::handle_pointer_move( int x,
  ******************************************/
 
 int
-Pointer_Handler::handle_pinch( int,
+Pointer_Handler::handle_pinch( int index,
                                int cnt )
 {
     // Nothing to be done while we aren't in pointer down mode or we didn't
@@ -142,11 +142,16 @@ Pointer_Handler::handle_pinch( int,
         return 0;
 
     // Try to get the coordinates of the fingers - this requires the
-    // GetTouchInfo() function to be availalble.
+    // GetTouchInfoI() function to be availalble.
 
     iv_mtinfo mtinfo[ 2 ];
 
-    if ( ! m_mess.GetTouchInfo( mtinfo ) )
+    if ( ! m_mess.GetTouchInfoI( index, mtinfo ) )
+        return 0;
+
+    // sometimes mtinfo does not validate all info
+
+    if ( ! mtinfo[ 0 ].active || ! mtinfo[ 0 ].active )
         return 0;
 
     // There are three interesting cases

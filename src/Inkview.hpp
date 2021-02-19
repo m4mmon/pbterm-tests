@@ -61,7 +61,7 @@ typedef struct iv_mtinfo_s {
 
 // Typedef for the signature of the GetTouchInfo() function
 
-typedef iv_mtinfo * ( * GetTouchInfo_t )( void );
+typedef iv_mtinfo * ( * GetTouchInfoI_t )( unsigned int );
 
 
 // ISPOINTEREVENT is missing two new types of events, so redefine it

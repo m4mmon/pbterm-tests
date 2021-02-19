@@ -1,5 +1,8 @@
 Small modifications for FW6 PB SDK and some cosmetic fixes.
-I actually tested that on a PB840 (de-branded Tea InkPad2) with firmware 5.20.706.
+I actually tested that on:
+   - PB840 (de-branded Tea InkPad2) with firmware 5.20.706,
+   - PB631 (de-branded Tea Touch HD) with firmware 5.20.1527,
+   - PB632 (PocketBook Touch HD3) with firmware 6.1.900.
 
 
 Here I detail the small modifications that have been made to pbterm.
@@ -47,14 +50,24 @@ Here I removed some compilation warnings.
 More notably there was a char* comparison which I found very suspect and replaced
 with a call to strcmp.
 
+src/Messenger.cpp
+Here use GetTouchInfoI instead of GetTouchInfo. While it was perfectly fine,
+the function does not exist anymore on 6 firmware.
+
+src/Pointer_Handler.cpp
+Updated the code to use GetTouchInfoI.
+
 src/Submenu.cpp
 Removed a warning
 
 src/Term.cpp
-Exploited the "filter" flag from Config.cpp in order to remove ANSI escape sequences
-with a regular expression I found on stackexchange or similar but have not been
-able to retrieve to credit its author.
+Exploited the "filter" flag from Config.cpp in order to remove ANSI escape sequences.
 If enabled, the output from ls or similar commands will not appear on the screen.
 In first instance, I wanted to to it only in "Line" class, and still write original
 output (if recording was enabled), but I was too lazy to pass the config object in
 the constructor, and did the filtering directly when getting shell output here.
+
+src/Utils.cpp
+Added the function that removes the ANSI escape sequences from a string, using
+a regular expression I found on stackexchange or similar but have not been
+able to retrieve to credit its author.

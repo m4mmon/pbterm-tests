@@ -22,6 +22,7 @@
 #include <limits>
 #include <cerrno>
 #include <cstdlib>
+#include <regex>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -118,7 +119,7 @@ trim( std::string & str )
  * (i.e. the string consisted of digits only and only leading,
  * and trailing whitespace, the base, if specified, was between
  * 2 and 36 and the resulting number fits into and int) and
- * the result via the first argument, otherwise false. 
+ * the result via the first argument, otherwise false.
  ******************************************/
 
 bool
@@ -273,6 +274,18 @@ std::string
 prepare_file_creation( std::string const & name )
 {
     return create_path( split_abs_path( name ) );
+}
+
+
+/******************************************
+ * Removes ANSI escape sequences from a string, modifying the string.
+ ******************************************/
+std::string &
+remove_ansi_seq( std::string & str )
+{
+    static std::regex exp( "\\x1B\\[[^@-~]*[@-~]" );
+    str = std::regex_replace( str, exp, "" );
+    return str;
 }
 
 

@@ -644,8 +644,7 @@ Term::get_shell_output( std::string & reply )
 
     if ( m_ansi_seq_flt )
     {
-        std::regex exp( "\\x1B\\[[^@-~]*[@-~]" );
-        reply = std::regex_replace( reply, exp, "" );
+        Utils::remove_ansi_seq(reply);
     }
 
     return cnt;

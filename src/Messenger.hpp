@@ -88,15 +88,15 @@ class Messenger
                  irect & rect );
 
 
-    // If available calls the GetTouchInfo() function from libinkview
+    // If available calls the GetTouchInfoI() function from libinkview
 
     bool
-    GetTouchInfo( iv_mtinfo mtinfo[ 2 ] );
+    GetTouchInfoI( unsigned int index, iv_mtinfo mtinfo[ 2 ] );
 
 
   private :
 
-    // Tries to load the GetMenuRect() and GetTouchInfo() functions from
+    // Tries to load the GetMenuRect() and GetTouchInfoI() functions from
     // libinkview
 
     void
@@ -142,7 +142,7 @@ class Messenger
     GetMenuRect_t m_GetMenuRect;
 
 
-    GetTouchInfo_t m_GetTouchInfo;
+    GetTouchInfoI_t m_GetTouchInfoI;
 };
 
 
