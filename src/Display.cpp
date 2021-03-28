@@ -44,8 +44,7 @@ Display::Display( Messenger & mess,
     , m_is_redraw_needed( false )
     , m_is_recording( false )
 {
-    OpenScreen( );
-    SetPanelType( 0 );
+    SetPanelType( PANEL_DISABLED );
 
     if ( ! ( m_font = OpenFont( m_font_name.c_str( ), m_font_size, 1 ) ) )
     {
@@ -76,7 +75,7 @@ Display::~Display( )
         CloseFont( m_font );
 }
 
-    
+
 /******************************************
  * Redraws the display
  ******************************************/
@@ -152,7 +151,7 @@ Display::shift( int amount )
     m_lines.shift( amount );
     Repaint( );
 }
-    
+
 
 /***************************************
  * Called when the user asks for a different orientation
